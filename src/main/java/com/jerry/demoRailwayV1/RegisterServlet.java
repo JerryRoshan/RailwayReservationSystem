@@ -14,10 +14,28 @@ import java.sql.SQLException;
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String DB_URL = "jdbc:mysql://localhost:3306/railways";
-	private static final String DB_USER = "jerry";
-	private static final String DB_PASSWORD = "root";
-
+//	private static final String DB_URL = "jdbc:mysql://localhost:3306/railways";
+//	private static final String DB_USER = "jerry";
+//	private static final String DB_PASSWORD = "root";
+	Connection con;
+    private String Url,dbname,dbpass;
+    public RegisterServlet() {
+    	Url = "jdbc:mysql://localhost:3306/testdb";
+        dbname = "jerry"; 
+        dbpass = "root"; 
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection(Url, dbname, dbpass);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            // Handle exception - possibly rethrow as a RuntimeException
+            throw new RuntimeException("JDBC Driver not found.", e);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exception - possibly rethrow as a RuntimeException
+            throw new RuntimeException("Failed to connect to the database.", e);
+        }
+    }
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String name = request.getParameter("name");
@@ -32,9 +50,9 @@ public class RegisterServlet extends HttpServlet {
 			response.getWriter().write("Passwords do not match!");
 			return;
 		}
-		try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+		try {
 			String sql = "INSERT INTO passenger_details (name, age, gender, berth_preference, username, password) VALUES (?, ?, ?, ?, ?, ?)";
-			try (PreparedStatement statement = connection.prepareStatement(sql)) {
+			try (PreparedStatement statement = con.prepareStatement(sql)) {
 				statement.setString(1, name);
 				statement.setInt(2, age);
 				statement.setString(3, gender);
