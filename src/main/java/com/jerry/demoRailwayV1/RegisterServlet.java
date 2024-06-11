@@ -20,7 +20,7 @@ public class RegisterServlet extends HttpServlet {
 	Connection con;
     private String Url,dbname,dbpass;
     public RegisterServlet() {
-    	Url = "jdbc:mysql://localhost:3306/testdb";
+    	Url = "jdbc:mysql://localhost:3306/railways";
         dbname = "jerry"; 
         dbpass = "root"; 
         try {
