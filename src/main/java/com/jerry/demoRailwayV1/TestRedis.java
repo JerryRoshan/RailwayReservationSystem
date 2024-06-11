@@ -19,12 +19,13 @@ public class TestRedis {
         }
         String hashedPassword = hashPassword(password);
         jedis.set(username, hashedPassword);
+        jedis.expire(username, 180); //delete the keys after 180 seconds
         return true;
     }
 
     public boolean authenticateUser(String username, String password) {
         if (!jedis.exists(username)) {
-            return false; // User does not exist
+            return false; // User does not exist in the cache so we must check in the mysql db
         }
         String storedPassword = jedis.get(username);
         String hashedPassword = hashPassword(password);

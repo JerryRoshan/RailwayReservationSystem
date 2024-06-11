@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Railway Ticket Booking - Login</title>
+    <title>Railway Ticket Booking - Register</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -30,7 +30,9 @@
             color: #555;
         }
         input[type="text"],
-        input[type="password"] {
+        input[type="password"],
+        input[type="number"],
+        select {
             width: 100%;
             padding: 10px;
             margin: 5px 0 10px;
@@ -77,6 +79,28 @@
         <div id="registration-form" style="display: none;">
             <form action="register" method="post">
                 <h2>Register</h2>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                
+                <label for="age">Age:</label>
+                <input type="number" id="age" name="age" required>
+                
+                <label for="gender">Gender:</label>
+                <select id="gender" name="gender" required>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+                
+                <label for="berth_preference">Berth Preference:</label>
+                <select id="berth_preference" name="berth_preference" required>
+                    <option value="Lower">Lower</option>
+                    <option value="Middle">Middle</option>
+                    <option value="Upper">Upper</option>
+                    <option value="Side Lower">Side Lower</option>
+                    <option value="Side Upper">Side Upper</option>
+                </select>
+                
                 <label for="new-username">Username:</label>
                 <input type="text" id="new-username" name="username" required>
                 
