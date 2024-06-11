@@ -50,7 +50,9 @@ public class TestRedis {
 			// User does not exist in the cache so we must check in the mysql db
 			String storedPasswordFromDb = queryDatabaseForUserPassword(username);
 			if (storedPasswordFromDb != null) {
-				jedis.set(username, storedPasswordFromDb); // Update Redis cache
+				String hashedPassword = hashPassword(storedPasswordFromDb);
+				jedis.set(username, hashedPassword); // Update Redis cache
+				jedis.expire(username, 160); // delete the keys after 60 seconds
 			} else {
 				return false; // User does not exist in the database either
 			}
