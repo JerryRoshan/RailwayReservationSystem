@@ -38,11 +38,20 @@ public class SearchTrainsServlet extends HttpServlet {
             PrintWriter out = response.getWriter();
             out.println("<html><head><title>Search Results</title></head><body>");
             out.println("<h2>Search Results</h2>");
-            out.println("<table border='1'><tr><th>Train ID</th><th>Train Name</th><th>Source</th><th>Destination</th></tr>");
+            out.println("<form action='bookTicket' method='post'>");
+            out.println("<table border='1'><tr><th>Select</th><th>Train ID</th><th>Train Name</th><th>Source</th><th>Destination</th></tr>");
             while (rs.next()) {
-                out.println("<tr><td>" + rs.getInt("train_id") + "</td><td>" + rs.getString("train_name") + "</td><td>" + rs.getString("source") + "</td><td>" + rs.getString("destination") + "</td></tr>");
+                out.println("<tr>");
+                out.println("<td><input type='radio' name='selectedTrain' value='" + rs.getInt("train_id") + "'></td>");
+                out.println("<td>" + rs.getInt("train_id") + "</td>");
+                out.println("<td>" + rs.getString("train_name") + "</td>");
+                out.println("<td>" + rs.getString("source") + "</td>");
+                out.println("<td>" + rs.getString("destination") + "</td>");
+                out.println("</tr>");
             }
             out.println("</table>");
+            out.println("<button type='submit' class='button'>Book Selected Train</button>");
+            out.println("</form>");
             out.println("</body></html>");
 
         } catch (SQLException e) {
