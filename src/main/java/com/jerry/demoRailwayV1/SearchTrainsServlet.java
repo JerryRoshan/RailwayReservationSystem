@@ -16,8 +16,8 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet("/searchTrains")
 public class SearchTrainsServlet extends HttpServlet {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/railways";
-    private static final String DB_USER = "your_username";
-    private static final String DB_PASSWORD = "your_password";
+    private static final String DB_USER = "jerry";
+    private static final String DB_PASSWORD = "root";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String source = request.getParameter("source");
