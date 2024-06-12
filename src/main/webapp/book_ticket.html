@@ -53,7 +53,7 @@
         <h1>Book Your Ticket</h1>
     </div>
     <div class="container">
-        <form action="searchTrains" method="post"> <!-- Changed here -->
+        <form action="searchTrains" method="post">
             <div class="form-group">
                 <label for="source">Source Station:</label>
                 <input type="text" id="source" name="source" required>
@@ -68,6 +68,11 @@
             </div>
             <button type="submit" class="button">Search Trains</button>
         </form>
+
+        <!-- Include the JSP file for search results -->
+        <div id="searchResults">
+            <%@ include file="searchResults.jsp" %>
+        </div>
     </div>
 </body>
 </html>

@@ -1,12 +1,13 @@
 package com.jerry.demoRailwayV1;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -35,24 +36,18 @@ public class SearchTrainsServlet extends HttpServlet {
             stmt.setString(2, destination);
             rs = stmt.executeQuery();
 
-            PrintWriter out = response.getWriter();
-            out.println("<html><head><title>Search Results</title></head><body>");
-            out.println("<h2>Search Results</h2>");
-            out.println("<form action='bookTicket' method='post'>");
-            out.println("<table border='1'><tr><th>Select</th><th>Train ID</th><th>Train Name</th><th>Source</th><th>Destination</th></tr>");
+            List<Train> trains = new ArrayList<>();
             while (rs.next()) {
-                out.println("<tr>");
-                out.println("<td><input type='radio' name='selectedTrain' value='" + rs.getInt("train_id") + "'></td>");
-                out.println("<td>" + rs.getInt("train_id") + "</td>");
-                out.println("<td>" + rs.getString("train_name") + "</td>");
-                out.println("<td>" + rs.getString("source") + "</td>");
-                out.println("<td>" + rs.getString("destination") + "</td>");
-                out.println("</tr>");
+                Train train = new Train();
+                train.setTrainId(rs.getInt("train_id"));
+                train.setTrainName(rs.getString("train_name"));
+                train.setSource(rs.getString("source"));
+                train.setDestination(rs.getString("destination"));
+                trains.add(train);
             }
-            out.println("</table>");
-            out.println("<button type='submit' class='button'>Book Selected Train</button>");
-            out.println("</form>");
-            out.println("</body></html>");
+
+            request.setAttribute("trains", trains);
+            request.getRequestDispatcher("searchResults.jsp").forward(request, response);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -65,5 +60,44 @@ public class SearchTrainsServlet extends HttpServlet {
                 e.printStackTrace();
             }
         }
+    }
+}
+
+class Train {
+    private int trainId;
+    private String trainName;
+    private String source;
+    private String destination;
+
+    public int getTrainId() {
+        return trainId;
+    }
+
+    public void setTrainId(int trainId) {
+        this.trainId = trainId;
+    }
+
+    public String getTrainName() {
+        return trainName;
+    }
+
+    public void setTrainName(String trainName) {
+        this.trainName = trainName;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
     }
 }
