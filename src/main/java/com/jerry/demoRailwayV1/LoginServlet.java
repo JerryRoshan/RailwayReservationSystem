@@ -5,6 +5,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
 
 @WebServlet("/login")
@@ -17,7 +19,9 @@ public class LoginServlet extends HttpServlet {
         boolean isAuthenticated = redisClient.authenticateUser(username, password);
         if (isAuthenticated) {
             //response.getWriter().write("Login successful!");
-        	response.sendRedirect("home.html");
+        	HttpSession session = request.getSession();
+        	session.setAttribute("username", username);
+        	response.sendRedirect("home.jsp");
         } else {
             response.getWriter().write("Invalid credentials!");
         }
